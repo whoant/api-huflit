@@ -17,7 +17,7 @@ const info = {
     try {
         await API.login(info);
         let schedule = await API.getAllMark();
-   
+        console.log(schedule)
     } catch (error) {
         console.log(error);
     }

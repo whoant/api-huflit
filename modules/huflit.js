@@ -137,27 +137,29 @@ class APIHuflit {
 					pathURI: '/default.aspx?page=thoikhoabieu&sta=0&id=' + idStudent,
 					isTransform: true
 				});
-				let parentTable = $('.textTable').parent();
-
 				let contentStudent = $('#ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV').text().split('-');
 				let classStudent = $('#ctl00_ContentPlaceHolder1_ctl00_lblContentLopSV').text().split('-');
-				
-				parentTable.map(items => {
-                    let item = parentTable[items].attribs.onmouseover.split(',');
 
-                    let startPeriod = parseInt(item[6].slice(0, -1).slice(1));
-					let numberOfPeriods = parseInt(item[7].slice(0, -1).slice(1));
-
+				let parentTable = $('#ctl00_ContentPlaceHolder1_ctl00_Table1').children('tbody').children();
 				
-					schedule.push({
-                        nameSubject: item[1].slice(0, -1).slice(1),
-                        codeSubject: item[2].slice(0, -1).slice(1),
-						dayOfWeek: item[3].slice(0, -1).slice(1),
-                        room: item[5].slice(0, -1).slice(1),
-                        nameTeacher: item[8].slice(0, -1).slice(1),
-                        timeStart: periodBoard[startPeriod].start,
-                        timeStop: periodBoard[startPeriod + numberOfPeriods - 1].end,
-					});
+				parentTable.map(function(){
+					$(this).children().map(function(){
+						let element = $(this).attr('onmouseover');
+						if (element){
+							let item = element.split(',');
+							let startPeriod = parseInt(item[6].slice(0, -1).slice(1));
+							let numberOfPeriods = parseInt(item[7].slice(0, -1).slice(1));
+							schedule.push({
+								nameSubject: item[1].slice(0, -1).slice(1),
+								codeSubject: item[2].slice(0, -1).slice(1),
+								dayOfWeek: item[3].slice(0, -1).slice(1),
+								room: item[5].slice(0, -1).slice(1),
+								nameTeacher: item[8].slice(0, -1).slice(1),
+								timeStart: periodBoard[startPeriod].start,
+								timeStop: periodBoard[startPeriod + numberOfPeriods - 1].end,
+							});
+						}
+					});              
 				});
 
 				resolve({
